@@ -13,7 +13,7 @@ LIBMXINC	:=	$(LMXDIR)/inc
 INC		=	pathfinder.h
 INCS	=	$(addprefix $(INCD)/, $(INC))
 
-SRC		= 	main.c mx_atoi.c mx_printerr.c correct_isl.c correct_dist.c parse_file.c pathfinder.c
+SRC		= 	main.c mx_atoi.c mx_printerr.c parse_file.c astar.c queue.c output.c paths_changes.c
 
 SRCS	=	$(addprefix $(SRCD)/, $(SRC))
 OBJS	=	$(addprefix $(OBJD)/, $(SRC:%.c=%.o))
