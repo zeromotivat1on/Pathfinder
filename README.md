@@ -1,9 +1,9 @@
 # Pathfinder
 A program that finds all the shortest paths between all the islands, using information about the bridges that connect them. The program:\
 
-1. Reads data from a file. Its name is specified as a command-line argument\
-2. Finds all the shortest paths between each combination of two islands\
-3. Prints the paths using the FIFO (first) rule for the islands to the standard output.\
+1. Reads data from a file. Its name is specified as a command-line argument
+2. Finds all the shortest paths between each combination of two islands
+3. Prints the paths using the FIFO (first) rule for the islands to the standard output.
 
 Input file description:\
 
