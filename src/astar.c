@@ -25,13 +25,13 @@ pNode **generate_successors(pNode *n_node, char **islands, int m_size, int matri
         successors[i] = NULL;
     }
 
-    int i = 0, scssr_amnt = 0;
+    int i = 0, scssr_index = 0;
     for(;mx_strcmp(islands[i], n_node->isl) != 0; ++i);
 
     for(int j = 0; j < m_size; ++j){
         if(matrix[i][j] != 0 && i != j) {
-            successors[scssr_amnt] = new_nNode(islands[j], matrix[i][j], n_node->full_dist + matrix[i][j]); 
-            scssr_amnt++;
+            successors[scssr_index] = new_nNode(islands[j], matrix[i][j], n_node->full_dist + matrix[i][j]); 
+            scssr_index++;
         }
     }
     return successors;
@@ -39,6 +39,8 @@ pNode **generate_successors(pNode *n_node, char **islands, int m_size, int matri
 
 // Find all paths
 pNode **a_star(int begin, int end, char **islands, int m_size, int matrix[m_size][m_size]){
+
+    // A* algorithm description
 
     /* 
      *
@@ -82,7 +84,7 @@ pNode **a_star(int begin, int end, char **islands, int m_size, int matrix[m_size
     pQueue *open = new_pqNode(n_node); // Can apply addition and deletion
     pQueue *closed = new_pqNode(n_node); // Only addition, no deletion
 
-    pNode **res = (pNode **)malloc(mx_pow(m_size, 2) * sizeof(pNode *)); // All possible paths from "begin" to "end"
+    pNode **res = (pNode **)malloc(sizeof(pNode *) * mx_pow(m_size, 2)); // All possible paths from "begin" to "end"
 
     for(int i = 0; i < m_size; ++i){
         res[i] = (pNode *)malloc(sizeof(pNode));

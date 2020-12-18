@@ -1,7 +1,8 @@
 #include "../inc/pathfinder.h"
 
-///////////////////////////////////////////////////////////////////////////////////// Need changes
+// Compare paths distances in order to lately sort them
 bool pathscmp(pNode *node1, pNode *node2, pNode **result) {
+
     int node1_tot_dist = 0, node2_tot_dist = 0; 
 
     pNode *temp_node1 = node1;
@@ -21,7 +22,7 @@ bool pathscmp(pNode *node1, pNode *node2, pNode **result) {
     temp_node2 = node2;
     char **temp_isl2 = first_last_isl(temp_node2);
 
-    if((mx_strcmp(temp_isl1[0], temp_isl2[0]) == 0 && mx_strcmp(temp_isl1[1], temp_isl2[1]) == 0)) {
+    if((mx_strcmp(temp_isl1[0], temp_isl2[0]) == 0 && mx_strcmp(temp_isl1[1], temp_isl2[1]) == 0)){
         if(node1_tot_dist > node2_tot_dist) return false;
     }
     else if ((mx_strcmp(temp_isl1[1], temp_isl2[0]) == 0 && mx_strcmp(temp_isl1[0], temp_isl2[1]) == 0)) {
@@ -37,23 +38,26 @@ bool pathscmp(pNode *node1, pNode *node2, pNode **result) {
     return true;
 }
 
-char **first_last_isl(pNode *node){
+// Returns first and last island in current path
+char **first_last_isl(pNode *node) {
+
     char **res = (char **)malloc(sizeof(char *) * 2);
+
+    // As we start from the end, than following variables are:
     *(res) = NULL; // Last node
-    *(res + 1) = NULL; // First node
-    pNode *temp = node;
     *(res) = mx_strdup(node->isl);
-    int i = 0;
-    while(temp->parent != NULL){
-        temp = temp->parent;
-        i++;
-    }
+    *(res + 1) = NULL; // First node    
+
+    pNode *temp = node;
+    while(temp->parent != NULL) temp = temp->parent;
+
     *(res + 1) = mx_strdup(temp->isl);
     return res;
 }
 
-///////////////////////////////////////////////////////////////////////////////////// Need changes
+// Resturns sorted array of islands in current path
 char **get_isl(pNode *path) {
+
     int path_size = 0;
     pNode *temp = path;
     for(;temp != NULL; path_size++) temp = temp->parent;
@@ -78,7 +82,7 @@ char **get_isl(pNode *path) {
     return islands;
 }
 
-///////////////////////////////////////////////////////////////////////////////////// Need changes
+// Sorts all paths
 void sort_paths(pNode **paths, char **islands) {
 
     for(int i = 0; paths[i + 1] != NULL; ++i) {
@@ -86,7 +90,7 @@ void sort_paths(pNode **paths, char **islands) {
         char **curr_p = first_last_isl(paths[i]); // Current path in arr
         char **next_p = first_last_isl(paths[i + 1]); // Next path in arr
 
-        // If our two paths have the same name at the beginning and at the end
+        // If our two paths (current and next) have the same name at the beginning and at the end
         if(mx_strcmp(curr_p[1], next_p[1]) == 0 
             && mx_strcmp(curr_p[0], next_p[0]) == 0) {
 
@@ -116,7 +120,7 @@ void sort_paths(pNode **paths, char **islands) {
                 pNode *temp = paths[i];
                 paths[i] = paths[i + 1];
                 paths[i + 1] = temp;
-                i = 0;
+                i = 0; // For more iterations, as a result for correct output
             }
         }
     }

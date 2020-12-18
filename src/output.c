@@ -1,11 +1,11 @@
 #include "../inc/pathfinder.h"
 
-void print_output_border(){
+void print_output_border() {
     for(int i = 0; i < 40; ++i) mx_printchar('=');
     mx_printchar('\n');
 }
 
-void print_path(char **first_last_islands){
+void print_path(char **first_last_islands) {
     print_output_border();
     
     mx_printstr("Path: ");
@@ -16,17 +16,18 @@ void print_path(char **first_last_islands){
     mx_printchar('\n');
 }
 
-void print_route(char **islands, int size){
+void print_route(char **islands, int size) {
     mx_printstr("Route: ");
 
     for (int i = size - 1; i >= 0; --i){
         mx_printstr(islands[i]);
         if(i >= 1) mx_printstr(" -> "); // For correct output (avoiding e.g. "a -> b -> ")
     }
+
     mx_printchar('\n');
 }
 
-void print_distance(pNode *node, int *distances, int size, int dist_sum){
+void print_distance(pNode *node, int *distances, int size, int dist_sum) {
     mx_printstr("Distance: ");
    
         if(size == 2){ // If there are only 2 islands, print last min distance from array
@@ -39,16 +40,17 @@ void print_distance(pNode *node, int *distances, int size, int dist_sum){
         else{
             for (int i = size - 2; i >= 0; --i){
                 mx_printint(distances[i]);
-                if(i >= 1) mx_printstr(" + ");
+                if(i >= 1) mx_printstr(" + "); // For correct output (avoiding e.g. "a + b + ")
             }
             mx_printstr(" = ");
             mx_printint(dist_sum);
             mx_printchar('\n');
         }
+
     print_output_border();
 }
 
-void output(pNode *node){    
+void output(pNode *node) {    
     char **first_last_islands = first_last_isl(node); // Array of first and last island in current path
     print_path(first_last_islands);
     
@@ -80,10 +82,9 @@ void output(pNode *node){
     print_distance(node, distances, size, dist_sum);
 }
 
-///////////////////////////////////////////////////////////////////////////////////// Need changes
 void print_res(pNode **paths, int size, char **islands) {
 
-    pNode **result  = (pNode **) malloc(size * sizeof(pNode *));
+    pNode **result  = (pNode **) malloc(sizeof(pNode *) * size);
     for(int i = 0; i < size; ++i) {
         result[i] = NULL;
     }
@@ -93,9 +94,9 @@ void print_res(pNode **paths, int size, char **islands) {
 
     for(int i = 0; paths[i] != NULL; ++i) { // Inserting correct paths to our result (e.g with the same total distance)
         for(int j = 0; paths[j] != NULL; ++j) {
-            pNode *temp_i = paths[i]; 
-            pNode *temp_j = paths[j];
             if(i != j) {
+                pNode *temp_i = paths[i]; 
+                pNode *temp_j = paths[j];
                 if(!pathscmp(temp_i, temp_j, result)) {
                     insert = false;
                     break;
